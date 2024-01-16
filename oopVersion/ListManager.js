@@ -1,5 +1,27 @@
 // import { StorageManager } from "./StorageManager";
 
+class Item {
+	constructor(name, price, id){
+		this.name = name;
+		this.price = price;
+		this.id = id;
+		this.inCart = false;
+	}
+
+	updatePrice(newPrice){
+		this.price = newPrice
+	}
+
+	setParentList(listInstance){
+		this.parentList = listInstance
+	}
+
+	listMethod(method, methodProp = null){
+		this.parentList[method](methodProp)
+	}
+}
+
+
 class ListManager {
 	constructor(items, itemIndices, nextId, cartTotal){
 		this.items = items || [];
@@ -10,6 +32,27 @@ class ListManager {
 
 	getItemIdx(id){
 		return this.itemIndices[id]
+	}
+
+	toJSON(){
+		const items = this.items.map(item => {
+			if(item){
+				return {
+					id : item.id,
+					name : item.name,
+					price : item.price,
+					inCart : item.inCart
+				}
+			}else return null
+			
+		})
+
+		return ({
+			items : items,
+			nextId : this.nextId,
+			cartTotal : this.cartTotal,
+			itemIndices : this.itemIndices
+		})
 	}
 
 	get formattedCartTotal (){
@@ -28,21 +71,12 @@ class ListManager {
 	}
 
 	addItem(name, price){
-		const item = {
-			name : name,
-			price : price,
-			id : this.nextId,
-			inCart : false
-		}
+		const item = new Item(name, price, this.nextId)
+		item.setParentList(this);
 		this.nextId++;
 
 		this.items.push(item);
 		this.itemIndices[item.id] = this.items.length - 1;
-	}
-
-	updatePrice(id, newPrice){
-		const itemIdx = this.getItemIdx(id)
-		this.items[itemIdx].price = newPrice
 	}
 
 	updateItemStatus(id, isInCart){
@@ -50,7 +84,7 @@ class ListManager {
 		this.items[itemIdx].inCart = isInCart
 	}
 
-	removeItem(id){
+	deleteItem(id){
 		const idx = this.getItemIdx(id);
 		if(this.items[idx].inCart){
 			this.removeItemFromCart(id)
@@ -93,7 +127,7 @@ class ListManager {
 	}
 
 	saveToLocal(){
-		StorageManager.saveToLocal(this.allData)
+		StorageManager.saveToLocal(this)
 	}
 
 	static loadFromLocal(){
@@ -102,7 +136,6 @@ class ListManager {
 
 	static createFromLocalStorage(){
 		const data = this.loadFromLocal()
-
 		return new ListManager(data.items, data.itemIndices, data.nextId, data.cartTotal)
 	}
 }

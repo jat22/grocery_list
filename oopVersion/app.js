@@ -132,7 +132,7 @@ const createNewRow = (item) => {
 	remove.textContent = 'X'
 	remove.className = 'remove-button'
 
-	checkboxTd.appendChild(checkbox)
+	// checkboxTd.appendChild(checkbox)
 	priceTd.appendChild(price)
 	removeTd.appendChild(remove)
 
