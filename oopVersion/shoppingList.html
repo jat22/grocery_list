@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ShoppingList</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<h1>Shopping List</h1>
+	<h3 id="cart-total"></h3>
+	<table id="active-list">
+		<colgroup>
+			<col id="check-col">
+			<col id="item-name-col">
+			<col id="price-col">
+			<col id="remove">
+		</colgroup>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Item</th>
+				<th>Price</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody id="list-body">
+		</tbody>
+	</table>
+	<form>
+		<input id="new-item-text-field" type="text" placeholder="New Item" required>
+		<input class="item-price" id="new-item-price-field" type="number" min="0" placeholder="price">
+		<button id='add-item-button' type="submit">Add</button>
+	</form>
+	<button id="clear-list-button">
+		Clear List
+	</button>
+	<h4>In Cart</h4>
+	<table id="in-cart-items">
+		<colgroup>
+			<col id="check-col">
+			<col id="item-name-col">
+			<col id="price-col">
+			<col id="remove">
+		</colgroup>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Item</th>
+				<th>Price</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody id="list-body">
+		</tbody>
+	</table>
+	<script src="DOMManager.js"></script>
+	<script src="StorageManager.js"></script>
+	<script src="ListManager.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
