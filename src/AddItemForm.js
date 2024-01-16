@@ -1,17 +1,22 @@
 
-class NewItemFormElement {
+class AddItemForm {
 	constructor(parentElementId, list){
 		this.parentElement = document.getElementById(parentElementId);
 		this.list = list;
 	}
 
+	static create(parentElementId, list){
+		const newForm = new AddItemForm(parentElementId, list);
+		newForm._createFormElement();
+		return newForm
+	}
+
 	render(){
-		this._createForm()
 		this.parentElement.appendChild(this.form)
 	}
 
-	_createForm (){
-		const form = Element.create('form');
+	_createFormElement (){
+		const form = document.createElement('form');
 		
 		this._createNameInput();
 		this._createPriceInput();
@@ -25,7 +30,7 @@ class NewItemFormElement {
 	}
 
 	_createNameInput(){
-		const nameInput = Element.create('input');
+		const nameInput = document.createElement('input');
 
 		nameInput.id = 'name-input';
 		nameInput.type = 'text';
@@ -36,7 +41,7 @@ class NewItemFormElement {
 	}
 
 	_createPriceInput(){
-		const priceInput = Element.create('input');
+		const priceInput = document.createElement('input');
 
 		priceInput.id = 'new-price-input';
 		priceInput.className = 'item-price';
@@ -60,21 +65,25 @@ class NewItemFormElement {
 	}
 
 	_createAddButton(){
-		const button = Element.create('button');
-
+		const button = document.createElement('button');
 		button.textContent = 'Add Item'
 
 		button.addEventListener('click', e => {
-			e.preventDefault();
-			const name = this.nameInput.value;
-			const price = this.priceInput.value;
-			if(this._validate(name, price)){
-				this.list.addItem(name, price);
-				this.priceInput.value = '';
-				this.nameInput.value = '';
-				this.domControl.renderListTables();
-			}
-		})
+			this._handleAddButtonClick(e)
+		});
+
 		this.addButton = button
+	}
+
+	_handleAddButtonClick(e){
+		e.preventDefault();
+		const name = this.nameInput.value;
+		const price = this.priceInput.value;
+		if(this._validate(name, price)){
+			this.list.addItem(name, price, this.list);
+			this.priceInput.value = '';
+			this.nameInput.value = '';
+			this.domControl.renderCartUpdate();
+		}
 	}
 }

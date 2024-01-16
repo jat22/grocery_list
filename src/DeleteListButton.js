@@ -6,14 +6,16 @@ class DeleteListButton {
 	}
 
 	_createButton(){
-		const button = Element.create('button')
+		const button = document.createElement('button')
 		button.textContent = 'Delete List'
 		button.id = 'delete-list-button'
 
 		button.addEventListener('click', e => {
 			e.preventDefault();
-			this.list.deleteAllItems();
-			domControl.renderListTables();
+			if(confirm('DELETE ALL ITEMS??')){
+				this.list.deleteAllItems();
+				domControl.renderCartUpdate();
+			}
 		})
 
 		this.button = button

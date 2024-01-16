@@ -1,3 +1,5 @@
+
+
 class DOMControl{
 	constructor(cartTotal, itemsNeededTable, itemsInCartTable, newItemForm, deleteListButton){
 		this.cartTotal = cartTotal;
@@ -15,8 +17,9 @@ class DOMControl{
 		this.deleteListButton.render()
 	}
 
-	renderListTables(){
+	renderCartUpdate(){
 		this.itemsInCartTable.render();
 		this.itemsNeededTable.render();
+		this.cartTotal.render();
 	}
 }

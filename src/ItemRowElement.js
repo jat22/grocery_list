@@ -1,20 +1,27 @@
 class ItemRowElement {
-	constructor(item){
+	constructor(item, domControl){
 		this.item = item
 		this.id = item?.id || null
 		this.name = item?.name || null;
 		this.price = item?.price || null;
 		this.inCart = item?.inCart || null;
+		this.domControl = domControl
 	}
 
-	createElement(){
-		const row = Element.create('tr')
+	static create(item, domControl){
+		const newRow = new ItemRowElement(item, domControl);
+		newRow._createElement()
+		return newRow
+	}
+
+	_createElement(){
+		const row = document.createElement('tr')
 		row.id = this.id
 
-		this.createCheckboxTd();
-		this.createNameTd();
-		this.createPriceTd();
-		this.createDeleteTd();
+		this._createCheckboxTd();
+		this._createNameTd();
+		this._createPriceTd();
+		this._createDeleteTd();
 
 		row.appendChild(this.checkboxTd);
 		row.appendChild(this.nameTd);
@@ -23,26 +30,27 @@ class ItemRowElement {
 		this.element = row
 	}
 
-	createNameTd(){
-		const td = Element.create('td')
+	_createNameTd(){
+		const td = document.createElement('td')
 		td.textContent = this.name;
 		td.className = this.inCart ? 'in-cart' : 'not-in-cart';
 		this.nameTd = td
 	}
 
-	createCheckboxTd(){
-		const td = Element.create('td')
-		const checkbox = Element.create('input');
+	_createCheckboxTd(){
+		const td = document.createElement('td')
+		const checkbox = document.createElement('input');
 
 		checkbox.type = 'checkbox';
 		checkbox.checked = this.inCart;
 
 		checkbox.addEventListener('change', e => {
 			if(checkbox.checked){
-				this.item.listMethod(addItemToCart, this.id)
+				this.item.addToCart();
 			} else {
-				this.item.listMethod(removeItemFromCart, this.id)
+				this.item.removeFromCart();
 			}
+			this.domControl.renderCartUpdate();
 		})
 
 		td.appendChild(checkbox);
@@ -50,13 +58,13 @@ class ItemRowElement {
 		this.checkboxTd = td;
 	}
 
-	createPriceTd(){
-		const td = Element.create('td')
-		const priceInput = Element.create('input')
+	_createPriceTd(){
+		const td = document.createElement('td')
+		const priceInput = document.createElement('input')
 
 		priceInput.type = 'number';
 		priceInput.value = this.price || 0;
-		priceInput.disable = this.inCart;
+		priceInput.disabled = this.inCart;
 		priceInput.inputMode = 'numeric';
 		priceInput.min = 0;
 
@@ -69,16 +77,23 @@ class ItemRowElement {
 		this.priceTd = td
 	}
 
-	createDeleteTd(){
-		const td = Element.create('td')
-		const deleteButton = Element.create('button');
+	_createDeleteTd(){
+		const td = document.createElement('td')
+		const deleteButton = document.createElement('button');
 
 		deleteButton.textContent = 'X';
 		deleteButton.className = 'remove-button'
 
 		deleteButton.addEventListener('click', e => {
 			e.preventDefault();
-			this.item.listMethod(deleteItem, this.id)
+
+			if(this.item.inCart){
+				if(!confirm('Item will be removed from your cart and deleted from your list. Continue?')){
+					return
+				}
+			}
+			this.item.delete()
+			this.domControl.renderCartUpdate();
 		})
 
 		td.appendChild(deleteButton)
