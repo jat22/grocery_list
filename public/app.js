@@ -18,6 +18,11 @@ window.onload = () => {
 	domControl.renderAll();
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+	const container = document.getElementById('shopping-list-container')
+	container.hidden = false
+})
+
 window.addEventListener('beforeunload', e => {
 	list.saveToLocal();
 })

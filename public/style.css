@@ -2,3 +2,27 @@
 	text-decoration: line-through;
 	color: gray;
 }
+
+.hover-effect:hover {
+	cursor: pointer
+}
+
+.checkbox-col{
+	width: 10px
+}
+
+.name-col{
+	width: 200px
+}
+
+.price-col{
+	width: 20px
+}
+
+.delete-col{
+	width:10px
+}
+
+.price-field{
+	width:50px
+}

@@ -19,7 +19,7 @@ class ListTableElement {
 		const colGroup = document.createElement('colgroup');
 		this._columnIds.forEach(col => {
 			const colElement = document.createElement('col');
-			colElement.id = col;
+			colElement.classList.add(col);
 			colGroup.appendChild(colElement);
 		})
 		table.appendChild(colGroup)

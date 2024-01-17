@@ -67,6 +67,7 @@ class ItemRowElement {
 		priceInput.disabled = this.inCart;
 		priceInput.inputMode = 'numeric';
 		priceInput.min = 0;
+		priceInput.classList.add('price-field')
 
 		priceInput.addEventListener('blur', e => {
 			const target = e.target;
@@ -79,12 +80,13 @@ class ItemRowElement {
 
 	_createDeleteTd(){
 		const td = document.createElement('td')
-		const deleteButton = document.createElement('button');
+		const deleteIcon = document.createElement('span');
 
-		deleteButton.textContent = 'X';
-		deleteButton.className = 'remove-button'
+		deleteIcon.classList.add("material-symbols-outlined")
+		deleteIcon.classList.add("hover-effect")
+		deleteIcon.textContent = 'delete'
 
-		deleteButton.addEventListener('click', e => {
+		deleteIcon.addEventListener('click', e => {
 			e.preventDefault();
 
 			if(this.item.inCart){
@@ -96,7 +98,7 @@ class ItemRowElement {
 			this.domControl.renderCartUpdate();
 		})
 
-		td.appendChild(deleteButton)
+		td.appendChild(deleteIcon)
 		this.deleteTd = td
 	}
 }

@@ -22,7 +22,8 @@ class CartTotalElement {
 	}
 
 	_createElement(){
-		const element = document.createElement('h3');
+		const element = document.createElement('p');
+		// element.classList.add('display-6')
 		this.element = element;
 	}
 
