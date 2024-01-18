@@ -55,7 +55,7 @@ class ItemDiv{
 					<p>${this.name}</p>
 				</div>
 				<div class="col-3">
-					<input type='number' class="form-control form-control-sm" value="${this.price}" placeholder="Price">
+					<input type='number' inputmode='decimal' class="form-control form-control-sm" value="${this.price}" placeholder="Price">
 				</div>
 				<div class="col-1 pt-1">
 					<i class="bi bi-trash h6 delete-item-button"></i>

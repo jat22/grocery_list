@@ -21,3 +21,8 @@ domManager.initialRender()
 $.when($.ready).then(e => $('body').show())
 $(window).on('beforeunload', e => list.saveToLocal())
 
+if(navigator.userAgent.indexOf('iPhone') > -1){
+	$(() => {
+		$('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=1, maximum-scale=1');
+	})
+}

@@ -30,7 +30,7 @@ class NewItemForm {
 						<input class="form-control form-control-sm item-name" " type="text" placeholder="New Item">
 					</div>
 					<div class="col-3">
-						<input class="form-control form-control-sm item-price" type="number" placeholder="Price">
+						<input class="form-control form-control-sm item-price" type="number" inputmode='decimal' placeholder="Price">
 					</div>
 					<div class="col-1 text-center">
 						<button class="btn btn-sm p-0 m-0">
