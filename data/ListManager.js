@@ -1,3 +1,6 @@
+import StorageManager from './StorageManager';
+import Item from './Item'
+
 
 class ListManager {
 	constructor(items=[], cartTotal=0){
@@ -50,3 +53,4 @@ class ListManager {
 	}
 };
 
+export default ListManager;

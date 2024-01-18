@@ -1,3 +1,4 @@
+// import $ from 'jquery';
 
 class ItemDiv{
 	constructor(item, domManager){
@@ -102,7 +103,6 @@ class ItemDiv{
 
 	_removeFromCartEventListener(){
 		this.$element.find('.remove-from-cart-button').click(e => {
-			e.preventDefault();
 			this.item.removeFromCart();
 			this.inCart = this.item.inCart;
 			this._updateDOM();
@@ -113,7 +113,6 @@ class ItemDiv{
 
 	_deleteItemEventListener(){
 		this.$element.find('.delete-item-button').click(e => {
-			e.preventDefault();
 			if(this.inCart){
 				if(!confirm('Item will be removed from your cart and deleted from your list. Continue?')){
 					return
@@ -124,7 +123,8 @@ class ItemDiv{
 			this.domManager.cartStateChange();
 		})
 	}
-}
+};
 
 
 
+export default ItemDiv;
