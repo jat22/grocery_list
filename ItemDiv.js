@@ -1,23 +1,24 @@
 
 class ItemDiv{
-	constructor(item, cartTotal){
+	constructor(item, domManager){
 		this.item = item;
 		this.id = item.id;
 		this.name = item.name;
 		this.price = item?.price || 0;
 		this.inCart = item.inCart;
-		this.cartTotal = cartTotal
+		this.domManager = domManager;
+		this.$element = null;
 	}
 
-	static create(item, cartTotal){
-		const newDiv = new ItemDiv(item, cartTotal)
+	static create(item, domManager){
+		const newDiv = new ItemDiv(item, domManager)
 		newDiv._updateDOM();
 	}
 
 	_updateDOM(){
-		this.$div?.remove();
+		this.$element?.remove();
 		this._setParentNode();
-		this._generateDivMarkUp();
+		this._updateElement();
 		this._addEventListeners();
 		this._render();
 	}
@@ -27,19 +28,20 @@ class ItemDiv{
 		if(!this.inCart) this.$parentNode = $('#list-container')
 	}
 
-	_generateDivMarkUp(){
-		if(this.inCart) this.$div = this._generateInCartMarkup()
-		if(!this.inCart) this.$div = this._generateInListMarkup()
+	_updateElement(){
+		if(this.inCart) this.$element = this._generateInCartMarkup()
+		if(!this.inCart) this.$element = this._generateInListMarkup()
 	}
 
 	_render(){
-		this.$parentNode.append(this.$div)
+		this.$parentNode.append(this.$element)
 	}
 
 	_addEventListeners(){
 		this._addToCartEventListener();
 		this._removeFromCartEventListener();
 		this._deleteItemEventListener();
+		this._changePriceEventListener()
 	}
 
 	_generateInListMarkup(){
@@ -52,7 +54,7 @@ class ItemDiv{
 					<p>${this.name}</p>
 				</div>
 				<div class="col-3">
-					<input class="form-control form-control-sm" type="text" value="${this.price}" placeholder="Price">
+					<input type='number' class="form-control form-control-sm" value="${this.price}" placeholder="Price">
 				</div>
 				<div class="col-1 pt-1">
 					<i class="bi bi-trash h6 delete-item-button"></i>
@@ -64,50 +66,53 @@ class ItemDiv{
 	_generateInCartMarkup(){
 		return $(`
 			<div class="row" id=${this.id}>
-				<div class="col-2">
-					<button class="btn btn-sm remove-from-cart-button">
-						<i class="bi bi-cart-dash h5"></i>
-					</button>
+				<div class="col-1 pt-1">
+					<i class="bi bi-cart-dash h5 remove-from-cart-button"></i>
 				</div>
-				<div class="col-5 pt-1">
+				<div class="col-7 pt-1">
 					<p>${this.name}</p>
 				</div>
 				<div class="col-3">
-					<input class="form-control form-control-sm" type="text" value=${this.price} disabled>
+					<input class="form-control form-control-sm" type="number" value=${this.price} disabled>
 				</div>
-				<div class="col-2 text-center">
-					<button class="btn btn-sm delete-item-button">
-						<i class="bi bi-trash h6"></i>
-					</button>
+				<div class="col-1 pt-1">
+					<i class="bi bi-trash h6 delete-item-button"></i>
 				</div>
 			</div>
 		`)
 	}
 
+	_changePriceEventListener(){
+		const $priceInput = this.$element.find('input');
+		$priceInput.blur(e => {
+			this.item.updatePrice($priceInput.val())
+			this.price = this.item.price
+		})
+	}
+
 	_addToCartEventListener(){
-		this.$div.find('.add-to-cart-button').click(e => {
-			e.preventDefault();
+		this.$element.find('.add-to-cart-button').click(e => {
 			this.item.addToCart();
 			this.inCart = this.item.inCart;
 			this._updateDOM();
-			this.cartTotal.updateDOM()
+			this.domManager.cartStateChange();
 		})
 
 	}
 
 	_removeFromCartEventListener(){
-		this.$div.find('.remove-from-cart-button').click(e => {
+		this.$element.find('.remove-from-cart-button').click(e => {
 			e.preventDefault();
 			this.item.removeFromCart();
 			this.inCart = this.item.inCart;
 			this._updateDOM();
-			this.cartTotal.updateDOM()
+			this.domManager.cartStateChange();
 		})
 
 	}
 
 	_deleteItemEventListener(){
-		this.$div.find('.delete-item-button').click(e => {
+		this.$element.find('.delete-item-button').click(e => {
 			e.preventDefault();
 			if(this.inCart){
 				if(!confirm('Item will be removed from your cart and deleted from your list. Continue?')){
@@ -115,8 +120,8 @@ class ItemDiv{
 				}
 			}
 			this.item.delete();
-			this.cartTotal.updateDOM()
-			this.$div.remove();
+			this.$element.remove();
+			this.domManager.cartStateChange();
 		})
 	}
 }

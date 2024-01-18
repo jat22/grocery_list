@@ -1,12 +1,12 @@
 class NewItemForm {
-	constructor($parentElement, list, cartTotal){
+	constructor($parentElement, list, domManager){
 		this.$parentElement = $parentElement;
 		this.list = list;
-		this.cartTotal = cartTotal;
+		this.domManager = domManager;
 	}
 
-	static create(parentElement, list, cartTotal){
-		const newForm = new NewItemForm(parentElement, list, cartTotal);
+	static create(parentElement, list, domManager){
+		const newForm = new NewItemForm(parentElement, list, domManager);
 		newForm.$form = newForm._generateFormMarkup();
 		newForm.$nameInput = newForm.$form.find('.item-name');
 		newForm.$priceInput = newForm.$form.find('.item-price');
@@ -23,13 +23,11 @@ class NewItemForm {
 		return $(`
 			<form class="form">
 				<div class="row ">
-					<div class="col-1">
-					</div>
-					<div class='col-7'>
-						<input class="form-control form-control-sm item-name" " type="text" placeholder="Item">
+					<div class='col-8'>
+						<input class="form-control form-control-sm item-name" " type="text" placeholder="New Item">
 					</div>
 					<div class="col-3">
-						<input class="form-control form-control-sm item-price" type="text" placeholder="Price">
+						<input class="form-control form-control-sm item-price" type="number" placeholder="Price">
 					</div>
 					<div class="col-1 text-center">
 						<button class="btn btn-sm p-0 m-0">
@@ -49,7 +47,7 @@ class NewItemForm {
 			alert('Item must have a name!')
 			return false
 		}
-		if(!price || isNaN(price) || price < 0){
+		if(isNaN(price) || price < 0){
 			alert('Price must be a number 0 or greater!')
 			return false
 		}
@@ -63,9 +61,11 @@ class NewItemForm {
 			e.preventDefault();
 			if(this._validate()){
 				const newItem = this.list.addItem(this.nameVal, this.priceVal, this.list);
-				ItemDiv.create(newItem, this.cartTotal);
-				this.$priceInput.val('')
-				this.$nameInput.val('')
+				ItemDiv.create(newItem, this.domManager);
+				this.domManager.cartStateChange()
+				this.$priceInput.val('');
+				this.$nameInput.val('');
+				this.$nameInput.focus();
 			}
 		})
 	}

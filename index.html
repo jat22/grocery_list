@@ -14,12 +14,12 @@
 			<p class="display-6 mb-0 header-text">Grocery List</p>
 			<div class="cart-total">
 				<span class="mb-0 header-text">CartTotal:</span>
+				<span class="header-text total-price"></span>
 			</div>
 		</nav>
-		<div class="container-md mt-3" id="list-container">
-			<div class="container text-center">
-				<!-- <h6 class="header-text">No Items</h6> -->
-			</div>
+		<div class="container-md mt-3" id="list-container"></div>
+		<div class="container text-center" id="empty-list-message">
+			<h6 class="header-text">No Items</h6>
 		</div>
 		<div class="container-md" id="new-item-form-container"></div>
 	</div>
@@ -28,12 +28,12 @@
 			<p class="display-6 mb-0 header-text">Cart</p>
 			<div class="cart-total">
 				<span class="mb-0 header-text">CartTotal:</span>
+				<span class="header-text total-price"></span>
 			</div>
 		</nav>
-		<div class="container-md mt-3" id="cart-container">
-			<div class="container text-center">
-				<!-- <h6 class="header-text">Cart is Empty</h6> -->
-			</div>
+		<div class="container-md mt-3" id="cart-container"></div>
+		<div class="container text-center" id="empty-cart-message">
+			<h6 class="header-text">Cart is Empty</h6>
 		</div>
 	</div>
 	<div class="container-md mt-3  text-end">
@@ -43,10 +43,10 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.js"
 		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" 
 		crossorigin="anonymous"></script>
+	<script src="DOMManager.js"></script>
 	<script src="StorageManager.js"></script>
 	<script src="Item.js"></script>
 	<script src="ListManager.js"></script>
-	<script src="CartTotalElement.js"></script>
 	<script src="NewItemForm.js"></script>
 	<script src="ItemDiv.js"></script>
 	<script src="app.js"></script>
