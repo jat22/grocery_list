@@ -13,7 +13,6 @@ module.exports = {
 	},
 	plugins : [
 		new HtmlWebpackPlugin({
-			hash:true,
 			template: './src/index.html',
 			filename: 'index.html',
 			inject: 'body'
