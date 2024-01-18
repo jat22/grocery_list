@@ -33,3 +33,5 @@ class Item {
 		this.list.items[this.id] = null
 	}
 }
+
+export default Item;
