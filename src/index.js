@@ -19,7 +19,12 @@ domManager.newItemForm = newItemForm
 domManager.initialRender()
 
 $.when($.ready).then(e => $('body').show())
-$(window).on('beforeunload', e => list.saveToLocal())
+// $(window).on('beforeunload', e => list.saveToLocal())
+$(document).on('visibilityChange', e => {
+	if(document.visibilityState === 'hidden'){
+		list.saveToLocal()
+	}
+})
 
 if(navigator.userAgent.indexOf('iPhone') > -1){
 	$(() => {
