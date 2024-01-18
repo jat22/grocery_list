@@ -8,3 +8,5 @@ class StorageManager {
 		return JSON.parse(localStorage.getItem('shoppingList'))
 	}
 }
+
+export default StorageManager;

@@ -1,10 +1,13 @@
+import ItemDiv from './ItemDiv'
+// import $ from 'jquery';
+
 class DOMManager{
 	constructor(list, $listContainer, $cartContainer, $cartTotalSpans){
 		this.list = list;
 		this.$cartContainer = $cartContainer;
 		this.$listContainer = $listContainer;
 		this.$cartTotalSpans = $cartTotalSpans;
-		this.newItemForm = null
+		this.newItemForm = null;
 	}
 
 	initialRender(){
@@ -44,4 +47,6 @@ class DOMManager{
 		return this.list.cartTotal?.toFixed(2) || 0.00
 	}
 
-}
+};
+
+export default DOMManager;

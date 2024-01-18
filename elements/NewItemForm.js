@@ -1,3 +1,6 @@
+// import $ from 'jquery';
+import ItemDiv from './ItemDiv'
+
 class NewItemForm {
 	constructor($parentElement, list, domManager){
 		this.$parentElement = $parentElement;
@@ -71,3 +74,5 @@ class NewItemForm {
 	}
 
 }
+
+export default NewItemForm;
