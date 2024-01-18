@@ -20,7 +20,7 @@ domManager.initialRender()
 
 $.when($.ready).then(e => $('body').show())
 // $(window).on('beforeunload', e => list.saveToLocal())
-$(document).on('visibilityChange', e => {
+$(document).on('visibilitychange', e => {
 	if(document.visibilityState === 'hidden'){
 		list.saveToLocal()
 	}
