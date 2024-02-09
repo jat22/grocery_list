@@ -40,11 +40,7 @@ class DOMManager{
 	}
 
 	_updateCartTotalElement(){
-		this.$cartTotalSpans.text(`$${this._cartTotalFormatted()}`)
-	}
-
-	_cartTotalFormatted(){
-		return this.list.cartTotal?.toFixed(2) || 0.00
+		this.$cartTotalSpans.text(`$${this.list.cartTotal}`)
 	}
 
 };

@@ -25,7 +25,8 @@ class ListManager {
 		const item = new Item(name, price, id, list, inCart);
 
 		if(item.inCart){
-			this.cartTotal += +item.price
+			const newTotal = (+this.cartTotal + +item.price).toFixed(2)
+			this.cartTotal = newTotal
 		}
 
 		this.items.push(item);

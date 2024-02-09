@@ -5,10 +5,11 @@ class ItemDiv{
 		this.item = item;
 		this.id = item.id;
 		this.name = item.name;
-		this.price = item?.price || 0;
+		this.price = item.price;
 		this.inCart = item.inCart;
 		this.domManager = domManager;
 		this.$element = null;
+		this.displayPrice = this.price === '0.00' || !this.price ? '' : `$${this.price}`
 	}
 
 	static create(item, domManager){
@@ -42,23 +43,25 @@ class ItemDiv{
 		this._addToCartEventListener();
 		this._removeFromCartEventListener();
 		this._deleteItemEventListener();
-		this._changePriceEventListener()
+		this._changePriceEventListener();
+		this._fieldInFocusEventListener
 	}
 
 	_generateInListMarkup(){
+		console.log(this.price)
 		return $(`
-			<div class="row" id=${this.id}>
-				<div class="col-1 pt-1">
-					<i class="bi bi-cart-plus h5 add-to-cart-button"></i>
+			<div class="row mt-1" id=${this.id}>
+				<div class="col-1 d-flex align-items-center justify-content-center">
+					<i class="bi bi-cart-plus h5 m-0 add-to-cart-button"></i>
 				</div>
 				<div class="col-7 pt-1">
-					<p>${this.name}</p>
+					<p class='h5'>${this.name}</p>
 				</div>
 				<div class="col-3">
-					<input type='number' inputmode='decimal' class="form-control form-control-sm" value="${this.price}" placeholder="Price">
+					<input type='text' inputmode='decimal' class="form-control form-control" value="${this.displayPrice}" placeholder="Price">
 				</div>
-				<div class="col-1 pt-1">
-					<i class="bi bi-trash h6 delete-item-button"></i>
+				<div class="col-1 d-flex align-items-center justify-content-center">
+					<i class="bi bi-trash m-0 h5 delete-item-button"></i>
 				</div>
 			</div>
 		`)
@@ -66,18 +69,18 @@ class ItemDiv{
 
 	_generateInCartMarkup(){
 		return $(`
-			<div class="row" id=${this.id}>
-				<div class="col-1 pt-1">
-					<i class="bi bi-cart-dash h5 remove-from-cart-button"></i>
+			<div class="row mt-1" id=${this.id}>
+				<div class="col-1 d-flex align-items-center justify-content-center">
+					<i class="bi bi-cart-dash h5 m-0 remove-from-cart-button"></i>
 				</div>
 				<div class="col-7 pt-1">
-					<p>${this.name}</p>
+					<p class='h5'>${this.name}</p>
 				</div>
 				<div class="col-3">
-					<input class="form-control form-control-sm" type="number" value=${this.price} disabled>
+					<input class="form-control form-control" type='text' value='$${this.price}' disabled>
 				</div>
-				<div class="col-1 pt-1">
-					<i class="bi bi-trash h6 delete-item-button"></i>
+				<div class="col-1 d-flex align-items-center justify-content-center">
+					<i class="bi bi-trash m-0 h5 delete-item-button"></i>
 				</div>
 			</div>
 		`)
@@ -121,6 +124,15 @@ class ItemDiv{
 			this.item.delete();
 			this.$element.remove();
 			this.domManager.cartStateChange();
+		})
+	}
+
+	_fieldInFocusEventListener(){
+		const $priceInput = this.$element.find('input')
+		$priceInput.on('focus', e => {
+			if($priceInput.val() === 0){
+				$priceInput.val('')
+			}
 		})
 	}
 };

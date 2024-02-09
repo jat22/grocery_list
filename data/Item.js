@@ -10,7 +10,6 @@ class Item {
 	}
 
 	updatePrice(newPrice){
-		console.log(newPrice)
 		this.price = newPrice
 	}
 
